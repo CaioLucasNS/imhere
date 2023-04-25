@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -10,29 +11,19 @@ import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
-  const participants = [
-    "Caio",
-    "Clara",
-    "Carlos",
-    "Heleno",
-    "Thiago",
-    "Bia",
-    "Fulano",
-    "Ciclano",
-    "Beltrano",
-    "Luffy",
-    "Robin",
-    "Sanji",
-    "Zoro",
-  ];
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState("");
 
   function handleParticipantAdd() {
-    if (participants.includes("Caio")) {
+    if (participants.includes(participantName)) {
       return Alert.alert(
         "Alerta de duplicidade",
         "Já existe um participante na lista com esse nome."
       );
     }
+
+    setParticipants((prevState) => [...prevState, participantName]);
+    setParticipantName("");
   }
 
   function handleParticipantRemove(name: string) {
@@ -58,6 +49,8 @@ export function Home() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6b6b6b"
+          value={participantName}
+          onChangeText={setParticipantName}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
